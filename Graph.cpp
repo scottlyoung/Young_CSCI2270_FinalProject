@@ -46,9 +46,20 @@ void Graph::deleteEdge(std::string,std::string)
 
 }
 
-std::vector<std::vector<edgeData> > Graph::getGraph()
+vector<vector<edgeData> > Graph::getGraph()
 {
-
+    vector<vector<edgeData> > information;
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        vector<edgeData> vertexInfo;
+        vertexInfo.push_back(edgeData(vertices.at(i).name,0));
+        for (int j = 0; j < vertices.at(i).edges.size(); j++)
+        {
+            vertexInfo.push_back(edgeData(vertices.at(i).edges.at(j).destination->name,vertices.at(i).edges.at(j).distance));
+        }
+        information.push_back(vertexInfo);
+    }
+    return information;
 }
 
 path Graph::getShortestNodePath(std::string,std::string)
