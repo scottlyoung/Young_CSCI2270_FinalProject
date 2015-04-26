@@ -9,8 +9,11 @@ using namespace std;
 int main() // this serves as a driver to demonstrate the graph class
 {
     // declare the graph object
+    cout << "Creating graph object...";
     Graph graph;
+    cout << " Finished" << endl;
     // create vertices in graph
+    cout << "Creating vertices...";
     graph.createVertex("Location 1");
     graph.createVertex("Location 2");
     graph.createVertex("Location 3");
@@ -20,7 +23,9 @@ int main() // this serves as a driver to demonstrate the graph class
     graph.createVertex("Location 7");
     graph.createVertex("Location 8");
     graph.createVertex("Location 9");
+    cout << " Finished" << endl;
     // create edges between the vertices
+    cout << "Creating edges... ";
     graph.createEdge("Location 1", "Location 2", 50);
     graph.createEdge("Location 1", "Location 4", 5);
     graph.createEdge("Location 2", "Location 3", 37);
@@ -33,7 +38,9 @@ int main() // this serves as a driver to demonstrate the graph class
     graph.createEdge("Location 6", "Location 7", 9);
     graph.createEdge("Location 6", "Location 8", 1);
     graph.createEdge("Location 7", "Location 8", 8);
+    cout << " Finished" << endl;
     // run and store results of getGraph
+    cout << "Getting graph data... " << endl;
     vector<vector<edgeData> > graphData = graph.getGraph();
     // output stored graph information
     for (int i = 0; i < graphData.size(); i++)
@@ -46,10 +53,15 @@ int main() // this serves as a driver to demonstrate the graph class
         cout << endl;
     }
     // delete an edge
+    cout << "Deleting an edge...";
     graph.deleteEdge("Location 6", "Location 7");
+    cout << " Finished" << endl;
     // delete a vertex
+    cout << "Deleting a vertex...";
     graph.deleteVertex("Location 9");
+    cout << " Finished" << endl;
     // show the changes after delete using getGraph()
+    cout << "Getting graph data... " << endl;
     graphData = graph.getGraph();
     for (int i = 0; i < graphData.size(); i++)
     {
@@ -61,6 +73,7 @@ int main() // this serves as a driver to demonstrate the graph class
         cout << endl;
     }
     // run and store results of getShortestNodePath
+    cout << "Getting shortest node path..." << endl;
     path shortestPath = graph.getShortestNodePath("Location 1", "Location 5");
     // output stored path information
     for (int i = 0; i < shortestPath.path.size(); i++)
@@ -68,6 +81,7 @@ int main() // this serves as a driver to demonstrate the graph class
         cout << shortestPath.path.at(i) << endl;
     }
     // run and store results of getShortestDistancePathDijikstras()
+    cout << "Getting shortest path using Dijikstras..." << endl;
     shortestPath = graph.getShortestDistancePathDijikstras("Location 1","Location 8");
     // output stored path information
     for (int i = 0; i < shortestPath.path.size(); i++)
@@ -76,6 +90,7 @@ int main() // this serves as a driver to demonstrate the graph class
     }
     cout << "distance: " << shortestPath.distance << endl;
     // run and store results of getShortestVisitAllExhaustive()
+    cout << "Getting shortest path that visits all nodes" << endl;
     shortestPath = graph.getShortestVisitAllExhaustive("Location 1");
     // output stored path information
     for (int i = 0; i < shortestPath.path.size(); i++)
