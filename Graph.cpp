@@ -1,4 +1,6 @@
 #include "Graph.h"
+#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -62,9 +64,60 @@ vector<vector<edgeData> > Graph::getGraph()
     return information;
 }
 
-path Graph::getShortestNodePath(std::string,std::string)
+path Graph::getShortestNodePath(string sourceVertex, string destinationVertex)
 {
-
+    queue<vertex*> que;
+    vertex* endVertex;
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        vertices.at(i).source == NULL;
+        if (sourceVertex == vertices.at(i).name)
+        {
+            que.push(&vertices.at(i));
+            vertices.at(i).source = &vertices.at(i);
+        }
+        if (destinationVertex == vertices.at(i).name)
+        {
+            endVertex = &vertices.at(i);
+        }
+    }
+    while (! que.empty())
+    {
+        vertex* working = que.front();
+        que.pop();
+        for (int i = 0; i < working->edges.size(); i++)
+        {
+            if ( working->edges.at(i).destination->source == NULL)
+            {
+                working->edges.at(i).destination->source == working;
+                que.push(working->edges.at(i).destination);
+            }
+        }
+    }
+    stack<vertex*> route;
+    vertex* working = endVertex;
+    while (working != working->source)
+    {
+        route.push(working);
+        working = working->source;
+    }
+    route.push(working);
+    path shortestPath;
+    shortestPath.distance = 0;
+    while (! route.empty())
+    {
+        working = route.top();
+        route.pop();
+        shortestPath.path.push_back(working->name);
+        for (int i = 0; i < working->edges.size(); i++)
+        {
+            if ( working->edges.at(i).destination == route.top())
+            {
+                shortestPath.distance += working->edges.at(i).distance;
+            }
+        }
+    }
+    return shortestPath;
 }
 
 path Graph::getShortestDistancePathDijikstras(std::string,std::string)
