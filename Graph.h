@@ -18,6 +18,7 @@ struct vertex // a location in the graph
     std::string name; // the name of the vertex
     bool visited; // whether the vertex has been visited, defined and used in some functions
     int distance; // the distance to the vertex, defined and used in some functions
+    vertex* source;
     std::vector<edge> edges; // stores the vertex's adjacencies
     vertex(std::string _name) // constructor function for the structure
     {
