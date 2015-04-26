@@ -1,5 +1,7 @@
 #include "Graph.h"
 
+using namespace std;
+
 Graph::Graph()
 {
 
@@ -10,14 +12,28 @@ Graph::~Graph()
 
 }
 
-void Graph::createVertex(std::string)
+void Graph::createVertex(string name) //creates a vertex
 {
-
+    vertices.push_back(vertex(name));
 }
 
-void Graph::createEdge(std::string,std::string,int)
+void Graph::createEdge(string nameSource, string nameDestination, int distance) //creates a one way edge
 {
-
+    vertex* destination; // stores pointer for destination vertex
+    for (int i = 0; i < vertices.size(); i++) // finds destination vertex
+    {
+        if (nameDestination == vertices.at(i).name)
+        {
+            destination = &vertices.at(i); // stores pointer to destination vertex
+        }
+    }
+    for (int i = 0; i < vertices.size(); i++) // finds source vertex
+    {
+        if (nameSource == vertices.at(i).name)
+        {
+            vertices.at(i).edges.push_back(edge(destination, distance)); // creates the edge
+        }
+    }
 }
 
 void Graph::deleteVertex(std::string)
