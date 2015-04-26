@@ -19,12 +19,21 @@ struct vertex // a location in the graph
     bool visited; // whether the vertex has been visited, defined and used in some functions
     int distance; // the distance to the vertex, defined and used in some functions
     std::vector<edge> edges; // stores the vertex's adjacencies
+    vertex(string _name) // constructor function for the structure
+    {
+        name = _name;
+    }
 };
 
 struct edge // a connection between  to vertex's on the graph
 {
     vertex* destination; // the vertex that the edge goes to
     int distance; // traversal distance
+    edge(vertex* _destination, int _distance) // constructor function the for structure
+    {
+        destination = _destination;
+        distance = _distance;
+    }
 };
 
 struct path // a path through the graph
@@ -37,6 +46,11 @@ struct edgeData // has returnable information about an edge of a graph
 {
     std::string name; // the name of the node the edge goes to
     int distance; // the distance of the edge
+    edgeData(string _name, int _distance) // constructor function for the structure
+    {
+        name = _name;
+        distance = _distance;
+    }
 };
 
 class Graph // the graph class, functions are described where they are defined
