@@ -38,18 +38,18 @@ int main() // this serves as a driver to demonstrate the graph class
     graph.createEdge("Location 6", "Location 7", 9);
     graph.createEdge("Location 6", "Location 8", 1);
     graph.createEdge("Location 7", "Location 8", 8);
-    graph.createEdge("Location 2", "Location 1", 50);
-    graph.createEdge("Location 4", "Location 1", 5);
-    graph.createEdge("Location 3", "Location 2", 37);
-    graph.createEdge("Location 4", "Location 3", 3);
-    graph.createEdge("Location 5", "Location 3", 7);
-    graph.createEdge("Location 7", "Location 3", 44);
-    graph.createEdge("Location 5", "Location 4", 64);
-    graph.createEdge("Location 6", "Location 5", 19);
-    graph.createEdge("Location 9", "Location 5", 11);
-    graph.createEdge("Location 7", "Location 6", 9);
-    graph.createEdge("Location 8", "Location 6", 1);
-    graph.createEdge("Location 8", "Location 7", 8);
+    graph.createEdge("Location 2", "Location 1", 55);
+    graph.createEdge("Location 4", "Location 1", 2);
+    graph.createEdge("Location 3", "Location 2", 33);
+    graph.createEdge("Location 4", "Location 3", 5);
+    graph.createEdge("Location 5", "Location 3", 10);
+    graph.createEdge("Location 7", "Location 3", 40);
+    graph.createEdge("Location 5", "Location 4", 60);
+    graph.createEdge("Location 6", "Location 5", 17);
+    graph.createEdge("Location 9", "Location 5", 9);
+    graph.createEdge("Location 7", "Location 6", 11);
+    graph.createEdge("Location 8", "Location 6", 3);
+    graph.createEdge("Location 8", "Location 7", 6);
     cout << " Finished" << endl;
     // run and store results of getGraph
     cout << "Getting graph data... " << endl;
@@ -84,7 +84,6 @@ int main() // this serves as a driver to demonstrate the graph class
         }
         cout << endl;
     }
-    /*
     // run and store results of getShortestNodePath
     cout << "Getting shortest node path..." << endl;
     path shortestPath = graph.getShortestNodePath("Location 1", "Location 5");
@@ -93,6 +92,8 @@ int main() // this serves as a driver to demonstrate the graph class
     {
         cout << shortestPath.path.at(i) << endl;
     }
+    cout << "distance: " << shortestPath.distance << endl;
+    /*
     // run and store results of getShortestDistancePathDijikstras()
     cout << "Getting shortest path using Dijikstras..." << endl;
     shortestPath = graph.getShortestDistancePathDijikstras("Location 1","Location 8");
