@@ -68,7 +68,6 @@ class Graph // the graph class, functions are described where they are defined
         path getShortestDistancePathDijikstras(std::string,std::string);
         path getShortestVisitAllExhaustive(std::string);
         // add more shortest path functions
-        std::vector<path> getLongestNodeVisitAllExhuastive(std::string);
         path getLongestDistanceVisitAllExhaustive(std::string);
     protected:
     private:

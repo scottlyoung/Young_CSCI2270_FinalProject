@@ -93,7 +93,6 @@ int main() // this serves as a driver to demonstrate the graph class
         cout << shortestPath.path.at(i) << endl;
     }
     cout << "distance: " << shortestPath.distance << endl;
-    /*
     // run and store results of getShortestDistancePathDijikstras()
     cout << "Getting shortest path using Dijikstras..." << endl;
     shortestPath = graph.getShortestDistancePathDijikstras("Location 1","Location 8");
@@ -103,6 +102,7 @@ int main() // this serves as a driver to demonstrate the graph class
         cout << shortestPath.path.at(i) << endl;
     }
     cout << "distance: " << shortestPath.distance << endl;
+    /*
     // run and store results of getShortestVisitAllExhaustive()
     cout << "Getting shortest path that visits all nodes" << endl;
     shortestPath = graph.getShortestVisitAllExhaustive("Location 1");
