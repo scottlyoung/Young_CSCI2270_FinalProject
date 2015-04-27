@@ -11,6 +11,7 @@ struct vertex;
 struct edge;
 struct path;
 struct edgeData;
+struct pathData;
 
 // defining structures
 struct vertex // a location in the graph
@@ -37,9 +38,15 @@ struct edge // a connection between  to vertex's on the graph
     }
 };
 
-struct path // a path through the graph
+struct pathData // info about path through the graph
 {
     std::vector<std::string> path; // names of the vertices in the path
+    int distance; // The distance of the path
+};
+
+struct path // a path through the graph
+{
+    std::vector<vertex*> path; // pointers to the vertices in the path
     int distance; // The distance of the path
 };
 
@@ -64,11 +71,11 @@ class Graph // the graph class, functions are described where they are defined
         void deleteVertex(std::string);
         void deleteEdge(std::string,std::string);
         std::vector<std::vector<edgeData> > getGraph();
-        path getShortestNodePath(std::string,std::string);
-        path getShortestDistancePathDijikstras(std::string,std::string);
-        path getShortestVisitAllExhaustive(std::string);
+        pathData getShortestNodePath(std::string,std::string);
+        pathData getShortestDistancePathDijikstras(std::string,std::string);
+        pathData getShortestVisitAllExhaustive(std::string);
         // add more shortest path functions
-        path getLongestDistanceVisitAllExhaustive(std::string);
+        pathData getLongestDistanceVisitAllExhaustive(std::string);
     protected:
     private:
         std::vector<vertex> vertices;

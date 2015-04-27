@@ -86,7 +86,7 @@ int main() // this serves as a driver to demonstrate the graph class
     }
     // run and store results of getShortestNodePath
     cout << "Getting shortest node path..." << endl;
-    path shortestPath = graph.getShortestNodePath("Location 1", "Location 5");
+    pathData shortestPath = graph.getShortestNodePath("Location 1", "Location 5");
     // output stored path information
     for (int i = 0; i < shortestPath.path.size(); i++)
     {
