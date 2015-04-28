@@ -15,12 +15,47 @@ Graph::~Graph()
 {
 
 }
+/*
+Function prototype:
+void createVertex(std::string)
 
+Function description:
+This method adds a vertex of the input name to the graph.
+
+Example:
+Graph cities;
+cities.createVertex("New York");
+
+Precondition:
+The string is the vertex name. A vertex by that name does not already exist.
+
+Post condition:
+A vertex by the input name exists in the graph.
+
+*/
 void Graph::createVertex(string name) //creates a vertex
 {
     vertices.push_back(vertex(name));
 }
 
+/*
+Function prototype:
+void createEdge(std::string,std::string,int)
+
+Function description:
+This method adds an edge from the first input string to the second input string, with a weight of the input int.
+
+Example:
+Graph cities;
+cities.createEdge("New York", "Los Angeles", 123);
+
+Precondition:
+Both input vertices must exist in the graph. There must no already be an edge in that direction between the two vertices.
+
+Post condition:
+An edge from the first input string to the second input string with a weight of the input int is in the graph.
+
+*/
 void Graph::createEdge(string nameSource, string nameDestination, int distance) //creates a one way edge
 {
     vertex* destination; // stores pointer for destination vertex
@@ -40,6 +75,24 @@ void Graph::createEdge(string nameSource, string nameDestination, int distance) 
     }
 }
 
+/*
+Function prototype:
+void deleteVertex(std::string)
+
+Function description:
+Deletes a vertex and all edges from or to that vertex.
+
+Example:
+graph.cities;
+cities.deleteVertex("New York");
+
+Precondition:
+A vertex by the input string must exist
+
+Post condition:
+There is no vertex by the input string, or and edges point to it, in the graph.
+
+*/
 void Graph::deleteVertex(string vertexName)
 {
     int vertexLoc;
@@ -63,6 +116,24 @@ void Graph::deleteVertex(string vertexName)
     vertices.erase(vertices.begin() + vertexLoc); // deletes vertex
 }
 
+/*
+Function prototype:
+void deleteEdge(std::string,std::string)
+
+Function description:
+Removes an edge from the graph.
+
+Example:
+graph.cities;
+cities.deleteEdge("New York", "Los Angeles");
+
+Precondition:
+There must be vertices with of the input names, and an edge between them in the direction of the first name to the second name.
+
+Post condition:
+There is no edge going from the first input string vertex to the second input string vertex.
+
+*/
 void Graph::deleteEdge(string startVertex, string endVertex) // deletes an edge
 {
     for (int i = 0; i < vertices.size(); i++) // searches for the start vertex
@@ -80,6 +151,24 @@ void Graph::deleteEdge(string startVertex, string endVertex) // deletes an edge
     }
 }
 
+/*
+Function prototype:
+std::vector<std::vector<edgeData> > getGraph()
+
+Function description:
+Gets the information about the layout of the entire graph. In the vector returned there is a vector for each vertex. These vectors contain the edgeData structure. The edge data Structure has a string called name, and an int called distance. The first edgeData in a vector has the name of a vertex and a distance of 0. Each subsequent edgeData contains the name of a vertex the first vertex has an edge to, and the distance is the weight of the vertex.
+
+Example:
+Graph cities;
+vector<vector<edgeData> > citiesLayout = getGraph();
+
+Precondition:
+The graph must be declared.
+
+Post condition:
+Returns a vector of a vector of the edgeData structure.
+
+*/
 vector<vector<edgeData> > Graph::getGraph()
 {
     vector<vector<edgeData> > information;
@@ -96,6 +185,24 @@ vector<vector<edgeData> > Graph::getGraph()
     return information;
 }
 
+/*
+Function prototype:
+pathData getShortestNodePath(std::string,std::string)
+
+Function description:
+The method finds the shortest path from the first input string to the second input string, returning the path and distance as a pathData structure. The pathData structure has an integer distance which is the weight distance traversed, and a vector of strings which is the names of the vertices traversed.
+
+Example:
+graph.cities;
+cities.getShortestNodePath("New York", "Los Angeles");
+
+Precondition:
+Both input strings must exist as vertices, and there must be a path between them.
+
+Post condition:
+Returns a pathData structure.
+
+*/
 pathData Graph::getShortestNodePath(string sourceVertex, string destinationVertex) // gets the shortest path from the start vertex to the end vertex, by vertex traversals
 {
     queue<vertex*> que; // declares a queue to store vertex
@@ -156,6 +263,24 @@ pathData Graph::getShortestNodePath(string sourceVertex, string destinationVerte
     return shortestPath;
 }
 
+/*
+Function prototype:
+pathData getShortestDistancePathDijikstras(std::string,std::string)
+
+Function description:
+Finds the shortest path from the first input string to the second input string using Dijkstra's algorithm, and then returns the information as a pathData structure. The pathData structure has an integer distance which is the weight distance traversed, and a vector of strings which is the names of the vertices traversed.
+
+Example:
+graph.cities;
+cities.getShortestDistancePathDijikstras("New York", "Los Angeles");
+
+Precondition:
+Both input strings must exist as vertices, and there must be a path between them.
+
+Post condition:
+Returns a pathData structure.
+
+*/
 pathData Graph::getShortestDistancePathDijikstras(string startVertex,string endVertex)
 {
     vertex* startPoint;
@@ -229,6 +354,24 @@ pathData Graph::getShortestDistancePathDijikstras(string startVertex,string endV
     return shortestPath;
 }
 
+/*
+Function prototype:
+pathData getShortestVisitAllExhaustive(std::string)
+
+Function description:
+This function performs an exhaustive search to find all paths that originate and end at the input string while going through every other vertex once, and the returns the lowest weight distance path as a pathData structure. The pathData structure has an integer distance which is the weight distance traversed, and a vector of strings which is the names of the vertices traversed.
+
+Example:
+graph.cities;
+cities.getShortestVisitAllExhaustive("New York", "Los Angeles");
+
+Precondition:
+There must be at-least one path that can go from the input string in a path to all other input strings and then back, visiting each vertex once.
+
+Post condition:
+Returns a pathData structure.
+
+*/
 pathData Graph::getShortestVisitAllExhaustive(string startVertex) // finds the shortest distance path that visits all vertices
 {
     //cout << "finding path" << endl; // debug
@@ -306,6 +449,24 @@ pathData Graph::getShortestVisitAllExhaustive(string startVertex) // finds the s
     return shortestPath;
 }
 
+/*
+Function prototype:
+pathData getLongestDistanceVisitAllExhaustive(std::string)
+
+Function description:
+This function performs an exhaustive search to find all paths that originate and end at the input string while going through every other vertex once, and the returns the highest weight distance path as a pathData structure. The pathData structure has an integer distance which is the weight distance traversed, and a vector of strings which is the names of the vertices traversed.
+
+Example:
+graph.cities;
+cities.getLongestDistanceVisitAllExhaustive("New York", "Los Angeles");
+
+Precondition:
+There must be at-least one path that can go from the input string in a path to all other input strings and then back, visiting each vertex once.
+
+Post condition:
+Returns a pathData structure.
+
+*/
 pathData Graph::getLongestDistanceVisitAllExhaustive(string startVertex) // finds longest path that visits all nodes, code is identical to getShortestVisitAllExhaustive() except where noted
 {
     vertex* startPoint = NULL;
@@ -376,6 +537,24 @@ pathData Graph::getLongestDistanceVisitAllExhaustive(string startVertex) // find
     return shortestPath;
 }
 
+/*
+Function prototype:
+pathData getShortestDistancePathBellmanFord(std::string,std::string)
+
+Function description:
+Finds the shortest path from the first input string to the second input string using the Bellman-Ford algorithm, and then returns the information as a pathData structure. The pathData structure has an integer distance which is the weight distance traversed, and a vector of strings which is the names of the vertices traversed.
+
+Example:
+graph.cities;
+cities.getShortestDistancePathBellmanFord("New York", "Los Angeles");
+
+Precondition:
+Both input strings must exist as vertices, and there must be a path between them.
+
+Post condition:
+Returns a pathData structure.
+
+*/
 pathData Graph::getShortestDistancePathBellmanFord(string startVertex, string endVertex) // finds shortest path, works with negative values
 {
     vertex* startPoint;
@@ -427,6 +606,24 @@ pathData Graph::getShortestDistancePathBellmanFord(string startVertex, string en
     return shortestPath;
 }
 
+/*
+Function prototype:
+pathData getShortestDistancePathDAG(std::string,std::string)
+
+Function description:
+Finds the shortest path from the first input string to the second input string using the DAG algorithm, and then returns the information as a pathData structure. The pathData structure has an integer distance which is the weight distance traversed, and a vector of strings which is the names of the vertices traversed.
+
+Example:
+graph.cities;
+cities.getShortestDistancePathDAG("New York", "Los Angeles");
+
+Precondition:
+Both input strings must exist as vertices, and there must be a path from the first vertex to the second. There can't be a cycle in the graph.
+
+Post condition:
+Returns a pathData structure.
+
+*/
 pathData Graph::getShortestDistancePathDAG(string startVertex, string endVertex) // finds shortest path, assuming no cycles
 {
     vertex* startPoint;
