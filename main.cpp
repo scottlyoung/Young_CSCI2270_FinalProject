@@ -102,7 +102,30 @@ int main() // this serves as a driver to demonstrate the graph class
         cout << shortestPath.path.at(i) << endl;
     }
     cout << "distance: " << shortestPath.distance << endl;
-    /*
+    cout << "adding edges to better demonstrate visitAll functions" << endl;
+    graph.createEdge("Location 2", "Location 4", 42);
+    graph.createEdge("Location 2", "Location 5", 13);
+    graph.createEdge("Location 3", "Location 6", 15);
+    graph.createEdge("Location 3", "Location 8", 17);
+    graph.createEdge("Location 5", "Location 7", 32);
+    graph.createEdge("Location 6", "Location 7", 45);
+    graph.createEdge("Location 4", "Location 2", 42);
+    graph.createEdge("Location 5", "Location 2", 13);
+    graph.createEdge("Location 6", "Location 3", 15);
+    graph.createEdge("Location 8", "Location 3", 17);
+    graph.createEdge("Location 7", "Location 5", 32);
+    graph.createEdge("Location 7", "Location 6", 45);
+    cout << "Getting graph data... " << endl;
+    graphData = graph.getGraph();
+    for (int i = 0; i < graphData.size(); i++)
+    {
+        cout << graphData.at(i).at(0).name << "-->";
+        for (int j = 1; j < graphData.at(i).size(); j++)
+        {
+            cout << graphData.at(i).at(j).name << ":" << graphData.at(i).at(j).distance << "***";
+        }
+        cout << endl;
+    }
     // run and store results of getShortestVisitAllExhaustive()
     cout << "Getting shortest path that visits all nodes" << endl;
     shortestPath = graph.getShortestVisitAllExhaustive("Location 1");
@@ -112,6 +135,14 @@ int main() // this serves as a driver to demonstrate the graph class
         cout << shortestPath.path.at(i) << endl;
     }
     cout << "distance: " << shortestPath.distance << endl;
-    */
+    cout << "Getting longest path that visits all nodes" << endl;
+    // run and store results of getLongestDistanceVisitAllExhaustive()
+    pathData longestPath = graph.getLongestDistanceVisitAllExhaustive("Location 1");
+    // output stored path information
+    for (int i = 0; i < longestPath.path.size(); i++)
+    {
+        cout << longestPath.path.at(i) << endl;
+    }
+    cout << "distance: " << longestPath.distance << endl;
     return 0;
 }

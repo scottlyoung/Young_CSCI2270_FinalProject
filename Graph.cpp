@@ -96,7 +96,7 @@ vector<vector<edgeData> > Graph::getGraph()
     return information;
 }
 
-path Graph::getShortestNodePath(string sourceVertex, string destinationVertex) // gets the shortest path from the start vertex to the end vertex, by vertex traversals
+pathData Graph::getShortestNodePath(string sourceVertex, string destinationVertex) // gets the shortest path from the start vertex to the end vertex, by vertex traversals
 {
     queue<vertex*> que; // declares a queue to store vertex
     vertex* endVertex; // variable to store end vertex
@@ -138,7 +138,7 @@ path Graph::getShortestNodePath(string sourceVertex, string destinationVertex) /
         //cout << working->name << endl; // debug line
         working = working->source;
     }
-    path shortestPath;
+    pathData shortestPath;
     shortestPath.distance = 0;
     while (! route.empty()) // goes through stack, removing vertices and putting them into path vertex, also calculates distance
     {
@@ -156,7 +156,7 @@ path Graph::getShortestNodePath(string sourceVertex, string destinationVertex) /
     return shortestPath;
 }
 
-path Graph::getShortestDistancePathDijikstras(string startVertex,string endVertex)
+pathData Graph::getShortestDistancePathDijikstras(string startVertex,string endVertex)
 {
     vertex* startPoint;
     vertex* endPoint;
@@ -219,7 +219,7 @@ path Graph::getShortestDistancePathDijikstras(string startVertex,string endVerte
         route.push(working->name);
         working = working->source;
     }
-    path shortestPath; // creates the return path
+    pathData shortestPath; // creates the return path
     shortestPath.distance = endPoint->distance; // puts the distance into the return path
     while (! route.empty()) // puts the vertex names into the return path
     {
@@ -229,12 +229,149 @@ path Graph::getShortestDistancePathDijikstras(string startVertex,string endVerte
     return shortestPath;
 }
 
-path Graph::getShortestVisitAllExhaustive(string startVertex)
+pathData Graph::getShortestVisitAllExhaustive(string startVertex) // finds the shortest distance path that visits all vertices
 {
-
+    //cout << "finding path" << endl; // debug
+    vertex* startPoint = NULL;
+    for (int i = 0; i < vertices.size(); i++) // sets a pointer to the starting vertex
+    {
+        if (vertices.at(i).name == startVertex)
+            startPoint = &vertices.at(i);
+    }
+    //cout << startPoint << endl; // debug
+    stack<path> paths; // creates a stack to hold paths being computed
+    vector<path> finishedPaths; // stack to hold finished paths
+    path start;
+    start.distance = 0;
+    start.path.push_back(startPoint); // creates and adds to the stack a working path to start the loop
+    paths.push(start);
+    while (! paths.empty()) // runs as long as there are working paths
+    {
+        //cout << "loading path" << endl; // debug
+        path working = paths.top(); // gets the path to expand
+        paths.pop();
+        bool newVertex = false; // tracks if the path was expanded
+        for (int i = 0; i < working.path.back()->edges.size(); i++)
+        {
+            //cout << "checking and edge" << endl;
+            bool visited = false; // tracks if vertex has been visited
+            for (int j = 0; j < working.path.size(); j++) // goes through all visited vertices
+            {
+                if (working.path.at(j) == working.path.back()->edges.at(i).destination) // checks if vertex has been visited
+                    visited = true;
+            }
+            if (! visited) // only runs if the vertex has not been visited before
+            {
+                newVertex = true; // sets that the path was expanded
+                path temp = working; // create an extra path to expand
+                temp.distance += working.path.back()->edges.at(i) .distance;
+                temp.path.push_back(working.path.back()->edges.at(i).destination);
+                paths.push(temp); // puts the new path onto the stack
+                //cout << "path added" << endl; // debug
+            }
+        }
+        if (! newVertex) // if the path could not be expanded, place in solutions
+        {
+            bool gotBack = false; // tracks if the path can be finished
+            for (int i = 0; i < working.path.back()->edges.size(); i++)
+            {
+                if (working.path.back()->edges.at(i).destination == startPoint) // searches for edge back to start
+                {
+                    //cout << "full loop" << endl; // debug
+                    gotBack = true; // track that the path could get back to the start
+                    working.distance += working.path.back()->edges.at(i).distance; // adds distance back to start to the path
+                    working.path.push_back(working.path.back()->edges.at(i).destination); // adds start node to end of path
+                }
+                if (gotBack) // if the path could return to the start
+                {
+                    //cout << vertices.size() << ":" << working.path.size() - 1 << endl; // debug
+                    if (vertices.size() == (working.path.size() - 1)) // checks if all vertices were visited
+                        finishedPaths.push_back(working); // adds the path to successful paths
+                }
+            }
+        }
+    }
+    int shortestLoc = 0; // creates value to track location of shortest path
+    for (int i = 1; i < finishedPaths.size(); i++) // runs through all completed paths
+    {
+        if (finishedPaths.at(i).distance < finishedPaths.at(shortestLoc).distance) // checks if current path is shorter than tracked shortest path
+            shortestLoc = i; // sets not shortest path
+    }
+    pathData shortestPath; // creates pathData to hold path information
+    for (int i = 0; i < finishedPaths.at(shortestLoc).path.size(); i++) // adds path names to pathData structure
+    {
+        shortestPath.path.push_back(finishedPaths.at(shortestLoc).path.at(i)->name);
+    }
+    shortestPath.distance = finishedPaths.at(shortestLoc).distance; // adds distance to pathData structure
+    return shortestPath;
 }
 
-path Graph::getLongestDistanceVisitAllExhaustive(std::string)
+pathData Graph::getLongestDistanceVisitAllExhaustive(string startVertex) // finds longest path that visits all nodes, code is identical to getShortestVisitAllExhaustive() except where noted
 {
-
+    vertex* startPoint = NULL;
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        if (vertices.at(i).name == startVertex)
+            startPoint = &vertices.at(i);
+    }
+    stack<path> paths;
+    vector<path> finishedPaths;
+    path start;
+    start.distance = 0;
+    start.path.push_back(startPoint);
+    paths.push(start);
+    while (! paths.empty())
+    {
+        path working = paths.top();
+        paths.pop();
+        bool newVertex = false;
+        for (int i = 0; i < working.path.back()->edges.size(); i++)
+        {
+            bool visited = false;
+            for (int j = 0; j < working.path.size(); j++)
+            {
+                if (working.path.at(j) == working.path.back()->edges.at(i).destination)
+                    visited = true;
+            }
+            if (! visited)
+            {
+                newVertex = true;
+                path temp = working;
+                temp.distance += working.path.back()->edges.at(i) .distance;
+                temp.path.push_back(working.path.back()->edges.at(i).destination);
+                paths.push(temp);
+            }
+        }
+        if (! newVertex)
+        {
+            bool gotBack = false;
+            for (int i = 0; i < working.path.back()->edges.size(); i++)
+            {
+                if (working.path.back()->edges.at(i).destination == startPoint)
+                {
+                    gotBack = true;
+                    working.distance += working.path.back()->edges.at(i).distance;
+                    working.path.push_back(working.path.back()->edges.at(i).destination);
+                }
+                if (gotBack)
+                {
+                    if (vertices.size() == (working.path.size() - 1))
+                        finishedPaths.push_back(working);
+                }
+            }
+        }
+    }
+    int shortestLoc = 0;
+    for (int i = 1; i < finishedPaths.size(); i++)
+    {
+        if (finishedPaths.at(i).distance > finishedPaths.at(shortestLoc).distance) // only difference between find longest and find shortest, searches for greatest instead of smallest
+            shortestLoc = i;
+    }
+    pathData shortestPath;
+    for (int i = 0; i < finishedPaths.at(shortestLoc).path.size(); i++)
+    {
+        shortestPath.path.push_back(finishedPaths.at(shortestLoc).path.at(i)->name);
+    }
+    shortestPath.distance = finishedPaths.at(shortestLoc).distance;
+    return shortestPath;
 }
