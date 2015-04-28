@@ -200,6 +200,7 @@ int main() // this serves as a driver to demonstrate the graph class
         }
         else if (stoi(input) == 15)
         {
+            graph->~Graph();
             running = false;
         }
     }
