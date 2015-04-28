@@ -87,7 +87,38 @@ int main() // this serves as a driver to demonstrate the graph class
         }
         else if (stoi(input) == 3)
         {
-
+            graph->~Graph();
+            graph = new Graph;
+            graph->createVertex("Location 1");
+            graph->createVertex("Location 2");
+            graph->createVertex("Location 3");
+            graph->createVertex("Location 4");
+            graph->createVertex("Location 5");
+            graph->createVertex("Location 6");
+            graph->createVertex("Location 7");
+            graph->createVertex("Location 8");
+            graph->createEdge("Location 1", "Location 2", 50);
+            graph->createEdge("Location 1", "Location 4", 5);
+            graph->createEdge("Location 2", "Location 3", 37);
+            graph->createEdge("Location 3", "Location 4", 3);
+            graph->createEdge("Location 3", "Location 5", -7);
+            graph->createEdge("Location 3", "Location 7", 44);
+            graph->createEdge("Location 4", "Location 5", 64);
+            graph->createEdge("Location 5", "Location 6", 19);
+            graph->createEdge("Location 6", "Location 7", 9);
+            graph->createEdge("Location 6", "Location 8", -1);
+            graph->createEdge("Location 7", "Location 8", 8);
+            graph->createEdge("Location 2", "Location 1", 55);
+            graph->createEdge("Location 4", "Location 1", -2);
+            graph->createEdge("Location 3", "Location 2", 33);
+            graph->createEdge("Location 4", "Location 3", 5);
+            graph->createEdge("Location 5", "Location 3", 10);
+            graph->createEdge("Location 7", "Location 3", 40);
+            graph->createEdge("Location 5", "Location 4", 60);
+            graph->createEdge("Location 6", "Location 5", 17);
+            graph->createEdge("Location 7", "Location 6", 11);
+            graph->createEdge("Location 8", "Location 6", 3);
+            graph->createEdge("Location 8", "Location 7", -6);
         }
         else if (stoi(input) == 4)
         {
