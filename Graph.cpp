@@ -376,7 +376,7 @@ pathData Graph::getLongestDistanceVisitAllExhaustive(string startVertex) // find
     return shortestPath;
 }
 
-pathData Graph::getShortestDistancePathBellmanFord(string startVertex, string endVertex)
+pathData Graph::getShortestDistancePathBellmanFord(string startVertex, string endVertex) // finds shortest path, works with negative values
 {
     vertex* startPoint;
     vertex* endPoint;
@@ -408,6 +408,70 @@ pathData Graph::getShortestDistancePathBellmanFord(string startVertex, string en
                     vertices.at(j).edges.at(k).destination->source = &vertices.at(j);
                 }
             }
+        }
+    }
+    stack<string> route; // puts the vertex names into a stack to flip the order
+    vertex* working = endPoint;
+    while (working != NULL)
+    {
+        route.push(working->name);
+        working = working->source;
+    }
+    pathData shortestPath; // creates the return path
+    shortestPath.distance = endPoint->distance; // puts the distance into the return path
+    while (! route.empty()) // puts the vertex names into the return path
+    {
+        shortestPath.path.push_back(route.top());
+        route.pop();
+    }
+    return shortestPath;
+}
+
+pathData Graph::getShortestDistancePathDAG(string startVertex, string endVertex) // finds shortest path, assuming no cycles
+{
+    vertex* startPoint;
+    vertex* endPoint;
+    vector<vertex*> sorted;
+    for (int i = 0; i < vertices.size(); i++) // goes through each vertex
+    {
+        vertices.at(i).source = NULL;
+        vertices.at(i).distance = INT_MAX;
+        if (vertices.at(i).name == startVertex) // checks for start vertex
+        {
+            vertices.at(i).distance = 0;
+            startPoint = &vertices.at(i);
+        }
+        if (vertices.at(i).name == endVertex) // checks for end vertex
+        {
+            endPoint = &vertices.at(i);
+        }
+        int location = INT_MAX;
+        for (int j = 0; j < vertices.at(i).edges.size(); j++) //identifies where the vertex should be sorted
+        {
+            for (int k = 0; k < sorted.size(); k++)
+            {
+                if (sorted.at(k) == vertices.at(i).edges.at(j).destination)
+                    location = min(k, location);
+            }
+        }
+        if (location = INT_MAX) // sorts the vertex
+        {
+            sorted.push_back(&vertices.at(i));
+        }
+        else
+        {
+            sorted.insert(sorted.begin() + location, &vertices.at(i));
+        }
+    }
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        for (int j = 0; j < sorted.at(i)->edges.size(); j++)
+        {
+                if (sorted.at(i)->edges.at(j).destination->distance > sorted.at(i)->distance + sorted.at(i)->edges.at(j).distance) // checks and updates distance
+                {
+                    sorted.at(i)->edges.at(j).destination->distance = sorted.at(i)->distance + sorted.at(i)->edges.at(j).distance;
+                    sorted.at(i)->edges.at(j).destination->source = sorted.at(i);
+                }
         }
     }
     stack<string> route; // puts the vertex names into a stack to flip the order
