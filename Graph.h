@@ -74,6 +74,7 @@ class Graph // the graph class, functions are described where they are defined
         pathData getShortestNodePath(std::string,std::string);
         pathData getShortestDistancePathDijikstras(std::string,std::string);
         pathData getShortestVisitAllExhaustive(std::string);
+        pathData getShortestDistancePathBellmanFord(std::string,std::string);
         // add more shortest path functions
         pathData getLongestDistanceVisitAllExhaustive(std::string);
     protected:

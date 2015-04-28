@@ -375,3 +375,54 @@ pathData Graph::getLongestDistanceVisitAllExhaustive(string startVertex) // find
     shortestPath.distance = finishedPaths.at(shortestLoc).distance;
     return shortestPath;
 }
+
+pathData Graph::getShortestDistancePathBellmanFord(string startVertex, string endVertex)
+{
+    vertex* startPoint;
+    vertex* endPoint;
+    vector<vertex*> solved;
+    for (int i = 0; i < vertices.size(); i++) // goes through all vertices to establish inital conditions and find start and end vertices
+    {
+        vertices.at(i).source = NULL;
+        vertices.at(i).distance = INT_MAX;
+        if (vertices.at(i).name == startVertex) // checks for start vertex
+        {
+            vertices.at(i).distance = 0;
+            solved.push_back(&vertices.at(i));
+            startPoint = &vertices.at(i);
+        }
+        if (vertices.at(i).name == endVertex) // checks for end vertex
+        {
+            endPoint = &vertices.at(i);
+        }
+    }
+    for (int i = 1; i < vertices.size(); i++) // run the procedure number of vertices minus 1 times
+    {
+        for (int j = 0; j < vertices.size(); j++) // go through every edge
+        {
+            for (int k = 0; k < vertices.at(j).edges.size(); k++)
+            {
+                if (vertices.at(j).edges.at(k).destination->distance > vertices.at(j).distance + vertices.at(j).edges.at(k).distance) // checks and updates distance
+                {
+                    vertices.at(j).edges.at(k).destination->distance = vertices.at(j).distance + vertices.at(j).edges.at(k).distance;
+                    vertices.at(j).edges.at(k).destination->source = &vertices.at(j);
+                }
+            }
+        }
+    }
+    stack<string> route; // puts the vertex names into a stack to flip the order
+    vertex* working = endPoint;
+    while (working != NULL)
+    {
+        route.push(working->name);
+        working = working->source;
+    }
+    pathData shortestPath; // creates the return path
+    shortestPath.distance = endPoint->distance; // puts the distance into the return path
+    while (! route.empty()) // puts the vertex names into the return path
+    {
+        shortestPath.path.push_back(route.top());
+        route.pop();
+    }
+    return shortestPath;
+}
